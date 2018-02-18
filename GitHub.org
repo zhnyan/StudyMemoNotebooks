@@ -13,3 +13,14 @@
 
  - 删除一个远程仓库需要通过GitHub网页操作，在setting下面找最后一个选项即可
 
+ - 有两个GitHub账号，从windows系统下从一个账号切换到另一个账号后，远程提交
+   文件时会遇到权限问题，提示信息如下：
+   $ git push origin master
+   remote: Permission to zhnyan/StudyMemoNotebooks.git denied to zy19808888.
+   fatal: unable to access 'https://github.com/zhnyan/StudyMemoNotebooks.git/': 
+   The requested URL returned error: 403
+
+   解决方法:
+   Control Panel(控制面板)—>User Account and family Safety(用户账号和家庭安全)
+   —>Manage Windows Credential(凭证管理)—>将跟Git有关的账号删除 
+
