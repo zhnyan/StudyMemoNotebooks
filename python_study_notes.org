@@ -1,0 +1,291 @@
+#+STARTUP: overview
+
+* Python
+** Installation & Configuration
+*** 先安装虚拟运行环境(venv)
+  Python丰富的库虽然功能强大，但也带来了版本兼容等问题。为了便于管理python的库带来
+  的兼容问题，采用虚拟环境的方法可以方便地解决问题。
+  首先安装好python，其自带venv虚拟环境(注意不要用virtualenv，这个很快会被淘汰）
+  安装成功后(此时可以不是管理员身份)，假如我们想建立一个叫test的虚拟环境，可以在终
+  端下运行:
+  > mkdir test
+  > python -m venv test
+  在Cmd（可以不是管理员身份)下运行环境目录test\Scripts下的activate即可启动
+  test虚拟环境，提示符前出现(test)即代表进入虚拟环境成功，像下面这样
+  (test) C:\eDocs\Python\test\Scripts>
+  可以在这里用pip等工具为虚拟环境安装库或模块了。退出test虚拟环境可以运行
+  deactive命令。删除test虚拟环境直接删除test目录即其包括的文件即可，比如：
+  > rmdir /s test
+*** 常用安装包
+ - 一次安装多个包
+   - 1. 在windows下生成一个txt文本文件(比如packs.txt)，列好所需安装的包(比如，
+        pandas, beautifulsoup4)，也可列出具体版本号，如下：
+        packs.txt文件:
+        pandas==0.21.1
+        beautifulsoup4==4.6.0
+   - 2. 将安装包列表文件放到工作环境或者虚拟环境(比如venv)目录下，然后运行
+        pip install -r packs.txt
+   - 3. 以下是不同应用的常用安装包列表
+    - Machine Learning
+      pandas
+      scipy
+      matplotlib
+      jupyter
+      sklearn (和这个有何区别？ scikit-learn)
+    - Natural Langugage
+      nltk
+     
+ - Investment
+  - For Tushare: 先安装 lxml, pandas, requests, bs4, 然后再安装tushare
+ - Web Scraping: bs4, requests
+ - AI/ML/DL
+  - Numpy, Scipy(这个包需要直接单独下载两个文件，pip install无法成功)
+  - Anaconda(直接下载安装包安装)
+ - Office Software (Word/Excel)
+  - Excel: openpyxl
+  - Word: python-docx
+ - GUI
+  - wxpython
+ - Controlling the Keyboard and Mouse
+  - pyautogui
+*** Jupyter Notebook Installation
+Jupyter Notebook 是一个交互式笔记本，便于创建和共享文学化程序文档。
+安装Jupyter软件: pip install jupyter
+安装Jupyter扩展软件，可以增加实用的新功能。具体操作如下：
+ - 安装: pip install jupyter_contrib_nbextensions
+ - 安装 javascript 和 css文件: jupyter contrib nbextension install --user
+ - 使能(enabling)或非使能(disabling)相应功能。(或者省掉这一步，直接启动
+   jupyter notebook后在界面中使能也可以)
+   enabling: jupyter nbextension enable <nbextension require path>
+   比如, jupyter nbextension enable codefolding/main
+   disabling: jupyter nbextension disable <nbextension require path>
+ - 启动, 在Cmd下输入: jupyter notebook
+   在启动后的界面中选择"Nbextensions"标签页，在出现的页面中选择相应的功能即可
+   比如代码折叠(Codefolding),标题折叠(Collapsible Headings), 
+   变量监测(Variable Inspector), 目录(Table of Contents(2))和代码
+   美化(Code Prettify)等
+** Mics
+*** 多文件项目的库调用
+ - 假设有一个项目包含两个文件，file_A和file_B。file_A调用file_B中的函数，
+   而file_B中的函数需要引用标准库lib_C，此时需要在file_B中导入lib_C，而不
+   是在file_A中导入lib_C
+* The Quick Python Book
+** Python Coding Conventions
+ - Situation: Module/package names
+  - Suggestion: short, all lowercase, underscores only if needed
+  - Examples: imp, sys
+ - Situation: Function names
+  - Suggestion: all lowercase, underscores_for_readablitiy
+  - Examples: foo(), my_func()
+ - Situation: Variable names
+  - Suggestion: all lowercase, underscores_for_readablitiy
+  - Examples: my_var
+ - Situation: Class names
+  - Suggestion: CapitalizeEachWord
+  - Examples: MyClass
+ - Situation: Constant names
+  - Suggestion: ALL_CAPS_WITH_UNDERSCORES
+  - Examples: PI, TAX_RATE
+ - Situation: Indentation
+  - Suggestion: 4 spaces per level, don’t use tabs
+ - Situation: Comparisons
+  - Suggestion: Don't compare explicitly to True or False
+  - Examples: if my_var:   if not my_var:
+** IDLE
+ - 在IDLE下通过输入[Alt+P]，可以获得之前在IDLE下输入的命令
+
+** Help
+ - 在IDLE下输入[help(xxx)]，可获得帮助信息，xxx可以是变量名、函数名等
+ - [dir()]可以列出当前命名空间中的所有对象(objects)
+ - [locals()] 输出本地变量
+ - [globals()] 输出全局变量
+ - 在操作系统命令行(比如, powershell)下输入:
+   python -m mydoc cmdname
+   即可找到cmdname相关的帮助文件
+
+** Built-In Data Types
+*** Lists 
+ - are enclosed by "[]";
+ - contains mixture data types;
+ - visit element in Lists, use [], such like "List[x]";
+ - built-in functions can operate on lists;
+ - .append method can only add one element(even a list) to the end
+   of list, .extend method allows add one list to another;
+ - .insert method can only insert one element(even a list) into the
+   list. no method similar like .extend method. But it can be solved
+   in below way:
+   >>> x = [1, 2, 3, 4]
+   >>> y = [5, 6, 7]
+   如果想在x的第一个和第二个元素之前插入list y, 则
+   >>> x = x[0:1] + y + x[1:]
+   >>> x
+       [1, 5, 6, 7, 2, 3, 4]
+   注意下面的代码是错的
+   >>> x = x[0 ] + y + x[1:]
+       TypeErro: unsupported operand type(s) for + : 'int' and 'list'.
+   因为x[0 ]代表的是一个整数值，而不是仅有一个元素的列表.
+ - list copy, shallow copy(slice) and deep copy
+   >>> a = [1, 2, 3]
+   >>> b = a
+   >>> b
+       [1, 2, 3]
+   >>> b[2 ] = 6
+   >>> a
+       [1, 2, 6]
+   >>> b
+       [1, 2, 6]
+   >>> b = [4, 5, 6]
+   >>> b
+       [4, 5, 6]
+   >>> a
+       [1, 2, 6]
+   以上是普通的list copy，它复制的是list地址，即a和b指向的是同一个地址，
+   因此a和b除了更改指向其它的list之外，无论有什么变化，都会让另一个发生同
+   样的变化.
+   shallow copy可以实现对两个list的拷贝。拷贝完成后，list之间相对独立，但
+   是列表中的元素类型如果是一个list（嵌套, nested)，那么这两个list均指向该
+   元素list，即该元素list内的元素如果被修改，则两个list均会做相应的变化。
+   如果元素list被赋予一个新的list，那么两个list的联系被断开，两者独立。
+   >>> x=[1,2,3,4]
+   >>> x
+       [1, 2, 3, 4]
+   >>> y=x[:]
+   >>> y
+       [1, 2, 3, 4]
+   >>> y[2 ]=8
+   >>> y
+       [1, 2, 8, 4]
+   >>> x
+       [1, 2, 3, 4]
+   >>> x=[1, [1, 2, 3], 2]
+   >>> y=x[:]
+   >>> y
+       [1, [1, 2, 3], 2]
+   >>> x[1 ][2 ]=10
+   >>> x
+       [1, [1, 2, 10], 2]
+   >>> y
+       [1, [1, 2, 10], 2]
+   >>> x[1 ] = [4, 5, 6]
+   >>> x
+       [1, [4, 5, 6], 2]
+   >>> y
+      [1, [1, 2, 10], 2]
+   深度拷贝deepcopy可以对两个list的完全拷贝。拷贝完成后，list之间完全独立，即
+   使list中的元素为list也完全彼此独立。
+   >>> x = [[1 ], 2]
+   >>> x
+       [[[1 ], 2]
+   >>> import copy
+   >>> y = copy.deepcopy(x)
+   >>> y
+       [[1 ], 2]
+   >>> x[0 ][0 ] = 9
+   >>> x
+       [[9 ], 2]
+   >>> y
+       [[1 ], 2]
+
+*** Tuples
+ - are enclosed by "()";
+ - contains mixture data types, (same with lists);
+ - visit element in Tuples, use [], such like "tuple[x]";
+ - immutable, cann't be modified after tuples have been created;
+ - A one-element tuple needs a comma, such like: (1,).
+*** Strings
+ - are enclosed by '', "", ''' ''', """ """;
+ - immutable;
+*** Dictionaries
+ - are enclosed by "{}";
+ - key-value pair, such like: {1: "one", 2: "two"};
+ - visit element in Dicts, use [], such like "dict[key]";
+ - keys are immutable type, includes numbers, strings, and tuples;
+ - values can be any type.
+*** Sets
+ - unordered collection of objects;
+ - uniqueness, duplicates are removed when set is created
+ - create a set, such like
+   >>> x = set([1, 2, 3, 1, 3, 5])
+   >>> x
+    {1, 2, 3, 5}
+** File System
+ - import os
+ - change dir: os.chdir('XXX')
+ - build a path string: os.path.join('C:\\', 'eDocs', 'Python')
+ - list all files/folders under a given directory: os.listdir('XXX')
+ - check if a given string is a existed file: os.path.isfile('XXX')
+ - check if a given string is a existed directory: os.path.isdir('XXX')
+ - walk through directory, return path, subdirectories and files:
+   os.walk('directory', topdown=True, onerror=None, followlinks=False)
+   'directory' is a starting directory path. When called, os.walk
+   creates an iterator that recursively applies itself to all the
+   directories contained in the FIRST parameter. see below e.g:
+   import os
+   for root, dirs, files in os.walk(os.curdir):
+     print("{0} has {1} files".format(root, len(files)))
+     if ".git" in dirs:
+       dirs.remove(".git")
+
+** Exceptions
+ - using the 'try-except-else-finally' compound statement
+ - exceptions structure looks like below:
+   try:
+     some codes...
+   except [ErrorCodes] as error:
+     handle codes...
+   else:
+     if error not happlend, run codes here
+   finally:
+     excecuted at the end of the block whether an exception was raised or not
+** Mics
+*** Chinese Characters
+ - 中文字符输出: 在文件顶部输入下面这行即可
+  # -*- coding: utf-8 -*-
+*** Fold Lines
+ - 某行代码过长，可在行尾添加 "\"实现折行
+*** Module & Main
+ - 有时在module文件(比如文件名为wo.py)有下面这样的代码：
+   def somefunction():
+     function codes here...
+
+   if __name__ == '__main__':
+     somefunction()
+
+   这样写可以让module文件可以在命令行下像脚本(script)一样运行
+   > python wo.py
+* Pandas Library
+* Web Scraping with Python
+** Chapter  1. Your First Web Scrapter
+ - [ ] Building Virtual Environment by 'virtualenv'
+ - [ ] Connecting Reliably
+       There are might three thighs might go wrong when scraping web:
+       - 1. The page is not found on the server.The exception of "HTTPError" will araise by urlopen function.
+       - 2. The server is not found. urlopen will return a None object.
+       - 3. The tag of BeautifulSoup does not exist. BeautifulSoup will return a None object.
+
+** Chapter  2. Advanced HTML Parsing
+** Chapter  3. Starting to Crawl
+** Chapter  4. Using APIs
+** Chapter  5. Storing Data
+** Chapter  6. Reading Documents
+** Chapter  7. Cleaning Your Dirty Data
+** Chapter  8. Reading and Writing Natual Languages
+** Chapter  9. Crawling Through Forms and Logins
+** Chapter 10. Scraping JavaScript
+** Chapter 11. Image Processing and Text Recognition
+** Chapter 12. Avoiding Scraping Traps
+** Chapter 13. Testing Your Website with Scrapers
+** Chapter 14. Scraping Remotely
+* Experience Accumulation
+** Numerical Computation
+ - 为了提高计算精度，通常会用decimal库实现高精度、长数位运算
+  - 调用decimal库: import decimal
+  - 设定小数位长度: 设置decimal.getcontext().prec的值即可实现。prec默认为28
+  - 计算: 
+    >>> decimal.Decimal(1)/decimal.Decimal(7)
+    >>> Decimal('0.1428571428571428571428571429')
+ - 注意：即使用decimal格式的数据作为math库的函数的输入，得到的输出值
+         不是decimal格式的，而是float或double格式的。忽略这一点，往
+         往会得到类似下面的错误提示:
+         TypeError: unsupported operand type(s)
+         for +: 'decimal.Decimal' and 'float'

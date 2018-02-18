@@ -1,0 +1,151 @@
+* 安装与配置
+ emacs安装步骤
+
+1.将文件解压缩至某目录下，比如"D:\Tools\emacs-24.5-bin-i686-mingw32"；
+2.进入该目录的"bin"目录下，双击addpm文件，安装到windows菜单中；
+3.点击安装的emacs图标，在打开的emacs界面菜单中选择"Options"，然后选择"Highlight Matching Parentheses"，最后选择"Save options"（这一步的目的是自动产生一个.emacs文件，通常位于"C:/Users/zhangyan/AppData/Roaming/.emacs"，需要将操作系统的隐藏文件设置去掉）；
+4.编辑此".emacs"文件，在最后增加一行，如下：
+(load-file "D:/Tools/emacs-24.5-bin-i686-mingw32/.emacs")
+5.在"D:/Tools/emacs-24.5-bin-i686-mingw32/.emacs"目录下编辑".emacs"文件，如下：
+(setenv "HOME" "C:/Users/zhangyan/Documents")
+(setenv "PATH" "C:/Users/zhangyan/Documents")
+;;set the default file path
+(setq default-directory "~/")
+
+;; set color
+;;(set-background-color "darkblue")
+(load-file "D:/Tools/emacs-24.5-bin-i686-mingw32/share/emacs/24.5/etc/themes/deeper-blue-theme.el")
+(set-frame-position (selected-frame) 0 0)
+(set-frame-height (selected-frame) 36)
+(set-frame-width (selected-frame) 80)
+
+
+;; set the default docs path
+(setq command-line-default-directory "D:/eDocs/")
+
+(set-default-font "Consolas-11")
+(set-fontset-font "fontset-default"  
+                  'gb18030' ("微软雅黑" . "unicode-bmp"))
+
+;; [org-mode] The following lines are always needed. Choose your own keys.
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is no
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+* 窗口分割
+ split-window-below [C-x 2]
+ split-window-right [C-x 3]
+ delete-other-windows [C-x 1] unsplit all
+ delete-window [C-x 0] remove current window
+ other-window [C-x o] move cursor to next pane
+
+ enlarge window on vertical direction [C-x ^]
+ shrink window on vertial dirction [M-x shrink-window]
+ enlarge window on horizontal dirction [C-x }]
+ shrink window on horizontal dirction [C-x {]
+
+* 文件操作
+  寻找/打开/创建文件 [C-x C-f]
+  保存文件 [C-x C-s]
+  另存为 [C-x C-w]
+  列出缓冲区 list buffers [C-x C-b]
+  切换缓冲区 to move between buffers [C-x b]
+  删除缓冲区 to delete a butter [C-x k]
+  离开Emacs [C-x C-c]
+  撤销 [C-x u]
+
+* 编辑文本
+** 基本操作
+  剪切 Cut [C-w]
+  粘帖 Paste [C-y]
+  撤销 Undo [C-x u]
+  复制 Copy [M-w]
+  删除 Delete [C-k]
+ 
+  选中一段文字有两种方法，
+  第一种是在很多中编辑方式(Fundamental/Org-mode)下都通用的：开始
+  选择 [C-@](即按住Ctrl-Shift-2)，然后将光标移动到选择结束的位置
+  后，执行上面的命令(比如C-w, C-y, M-w等)或者执行[C-x C-x]表示选
+  择结束。
+  第二种比较简便，但是目前测试只能在Fundamental模式下执行，即按住Shift和方向键选择
+
+** 排版
+  重新填充行模式 refill mode [M-x refill-mode]. 
+
+  如果希望在启动时就自动进入该模式(!!!强烈建议不要自动启动该模式，这会破坏
+  其他模式下的排版结构，最好按照需要手动启动)，则在.emacs中添加以下代码：
+  (setq default-major-mode 'text-mode)
+  (add-hook 'text-mode-hook (lambada ( ) (refill-mode 1)))
+  自动填充行模式 autofill mode [M-x auto-fill-mode]. 如果希望在启动时就
+  自动进入该模式，则在.emacs中添加以下代码：
+  (setq default-major-mode 'text-mode)
+  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+
+** 搜索
+ 向前搜索 [C-s]，下一个[C-s]
+ 向后搜索 [C-r]，下一个[C-r]
+** 两个比较
+ 打开两个文件，然后输入[M-x compare-windows]
+* 工作环境
+ run a command in Emacs Session [M-!]
+ using shell mode [M-x shell]
+ retrive last shell command [M-p]
+* org-mode
+** Tables
+ - Any line start with '|', to start a table
+ - org-table-insert-row: M-S-down
+ - org-table-kill-row: M-S-up
+ - org-table-insert-column: M-S-right
+ - org-table-kill-column: M-S-left
+ - Edit the current field in a separate window [C-c `]
+ Formulas are stored in a special line starting with '#+=TBLFM:'
+ directly below the table.
+** 'TODO items
+ - 改变当前项目状态，(TODO，DONE，无状态) [C-c, C-t]
+
+** Dates and Times
+ - Insert an inactive date [C-c !]
+ - Insert an active date [C-c .]
+ - Insert an inactive time (date & time) [C-u C-c !]
+ - Insert an active time (date & time) [C-u C-c .]
+** Run Code Under org-mode
+ 在org-mode下运行程序并输出结果首先要在初始脚本.emacs下使能相应代码，比如使能
+ elisp和python的脚本如下：
+ (org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (python . t)))
+
+ 然后在org文件中按照格式写出运行程序，以python为例:
+#+BEGIN_SRC python :results output
+i=0
+while(i<3):
+  print('how are you? emacs & python')
+  i=i+1
+#+END_SRC
+
+运行程序时，光标在代码部分时执行[C-c C-c]，如下：
+
+#+BEGIN_SRC python :results output
+i=0
+while(i<3):
+  print('how are you? emacs & python')
+  i=i+1
+#+END_SRC
+
+#+RESULTS:
+: how are you? emacs & python
+: how are you? emacs & python
+: how are you? emacs & python
+* elisp
+** 编译运行
+ - 在编辑窗口下直接运行的方式：在所要执行语句之后执行[C-x C-e]便可在缓冲区输出
+   窗口看到输出结果
+ - 使用emacs的shell mode[M-x shell]，编译运行命令为: emacs --script file.el
+* MICS
+ - 在Debian桌面环境下让emacs在Terminal中启动: $ emacs -nw, 或者
+   $ emacs --no-window-system
+* TO LEARN
+

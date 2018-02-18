@@ -1,0 +1,15 @@
+* Configuration
+ - 配置编辑器
+   当提交commit时通常需要输入信息，用来描述提交的内容。如果用
+   git commit -m "message" 则输入的信息比较少，此时最好用编
+   辑器，在Git命令行下直接输入git commit就可以自动打开配置好
+   的编辑器。举例来说，如果配置emacs，则在git命令行下输入
+   git config --global core.editor "C:/emacs-25.3_1-x86_64/bin/emacs"
+
+ - example
+   git config --global user.name "zhnyan"
+   git config --global user.email zhn.yan@qq.com
+   git config --global core.editor "C:/emacs-25.3_1-x86_64/bin/emacs"
+
+ - 删除一个远程仓库需要通过GitHub网页操作，在setting下面找最后一个选项即可
+
